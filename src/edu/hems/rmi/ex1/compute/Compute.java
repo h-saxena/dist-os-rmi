@@ -1,5 +1,8 @@
 package edu.hems.rmi.ex1.compute;
 
-public class Compute {
+import java.rmi.Remote;
+import java.rmi.RemoteException;
 
+public interface Compute extends Remote {
+    <T> T executeTask(Task<T> t) throws RemoteException;
 }
