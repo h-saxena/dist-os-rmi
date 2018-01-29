@@ -1,4 +1,4 @@
-package edu.hems.rmi.ex1.compute;
+package edu.hems.rmi.step1.compute;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;

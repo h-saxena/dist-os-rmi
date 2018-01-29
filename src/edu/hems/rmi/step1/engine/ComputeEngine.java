@@ -1,11 +1,11 @@
-package edu.hems.rmi.ex1.engine;
+package edu.hems.rmi.step1.engine;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
-import edu.hems.rmi.ex1.compute.Compute;
-import edu.hems.rmi.ex1.compute.Task;
+import edu.hems.rmi.step1.compute.Compute;
+import edu.hems.rmi.step1.compute.Task;
 
 public class ComputeEngine implements Compute {
 

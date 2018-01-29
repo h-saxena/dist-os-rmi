@@ -1,8 +1,8 @@
-package edu.hems.rmi.ex1.client;
+package edu.hems.rmi.step1.client;
 
 import java.io.Serializable;
 
-import edu.hems.rmi.ex1.compute.Task;
+import edu.hems.rmi.step1.compute.Task;
 
 public class ComputeAddition implements Task<Integer>, Serializable {
 	Integer a = 0;

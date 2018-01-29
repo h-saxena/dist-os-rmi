@@ -1,10 +1,10 @@
-package edu.hems.rmi.ex1.client;
+package edu.hems.rmi.step1.client;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
-import edu.hems.rmi.ex1.compute.Compute;
-import edu.hems.rmi.ex1.compute.Task;
+import edu.hems.rmi.step1.compute.Compute;
+import edu.hems.rmi.step1.compute.Task;
 
 
 public class ComputeAddClient {
