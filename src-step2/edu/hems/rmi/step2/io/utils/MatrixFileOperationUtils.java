@@ -2,26 +2,34 @@ package edu.hems.rmi.step2.io.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class MatrixFileOperationUtils {
 
 	
-	public static void saveMatrixToFile(int[][] board, String fileName) throws IOException {
+	public static void saveMatrixToFile(int[][] matrix, String fileName) throws IOException {
 		StringBuilder builder = new StringBuilder();
-		for(int i = 0; i < board.length; i++)
+		for(int i = 0; i < matrix.length; i++)
 		{
-		   for(int j = 0; j < board.length; j++)
+		   for(int j = 0; j < matrix[i].length; j++)
 		   {
-		      builder.append(board[i][j]+"");
-		      if(j < board.length - 1)
+		      builder.append(matrix[i][j]+"");
+		      if(j < matrix[i].length - 1)
 		         builder.append(",");
 		   }
-		   builder.append("\n");//append new line at the end of the row
+		   builder.append("\n");
 		}
-		BufferedWriter writer = new BufferedWriter(new FileWriter("./data/" + fileName + ".txt"));
+		String fName = "./data/" + fileName + ".txt";
+		Path newFilePath = Paths.get(fName);
+		Files.deleteIfExists(newFilePath);
+		Files.createFile(newFilePath);
+		BufferedWriter writer = new BufferedWriter(new FileWriter(fName));
 		writer.write(builder.toString());//save the string representation of the board
 		writer.close();
 		
