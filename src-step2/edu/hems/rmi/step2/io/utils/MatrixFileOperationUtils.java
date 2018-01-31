@@ -2,7 +2,6 @@ package edu.hems.rmi.step2.io.utils;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -25,7 +24,9 @@ public class MatrixFileOperationUtils {
 		   }
 		   builder.append("\n");
 		}
-		String fName = "./data/" + fileName + ".txt";
+		String fPath = "./data/";
+		Files.createDirectories(Paths.get(fPath));
+		String fName =  fPath + fileName + ".txt";
 		Path newFilePath = Paths.get(fName);
 		Files.deleteIfExists(newFilePath);
 		Files.createFile(newFilePath);
