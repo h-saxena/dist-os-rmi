@@ -11,8 +11,7 @@ import java.nio.file.Paths;
 
 public class MatrixFileOperationUtils {
 
-	
-	public static void saveMatrixToFile(int[][] matrix, String fileName) throws IOException {
+	public static StringBuilder convertMatrixToString(int[][] matrix) {
 		StringBuilder builder = new StringBuilder();
 		for(int i = 0; i < matrix.length; i++)
 		{
@@ -24,6 +23,10 @@ public class MatrixFileOperationUtils {
 		   }
 		   builder.append("\n");
 		}
+		return builder;
+	}
+	public static Path saveMatrixToFile(int[][] matrix, String fileName) throws IOException {
+		StringBuilder builder = convertMatrixToString(matrix);
 		String fPath = "./data/";
 		Files.createDirectories(Paths.get(fPath));
 		String fName =  fPath + fileName + ".txt";
@@ -33,6 +36,7 @@ public class MatrixFileOperationUtils {
 		BufferedWriter writer = new BufferedWriter(new FileWriter(fName));
 		writer.write(builder.toString());//save the string representation of the board
 		writer.close();
+		return newFilePath;
 		
 	}
 	

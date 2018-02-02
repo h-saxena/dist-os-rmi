@@ -1,6 +1,7 @@
 package edu.hems.rmi.step2.io;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Random;
@@ -26,16 +27,32 @@ public class MatrixIOModule {
         }
 
 	}
-	
-	public void performMatrixOperations(int rows, int cols) throws IOException {
+
+	public void performMatrixDeterminent(int rows, int cols) throws IOException {
+		int[][] matrixA = generateMatrix(rows, cols);
+		System.out.println("\n\nMatrix A =\n" + MatrixFileOperationUtils.convertMatrixToString(matrixA) );
+		
+		int detValue = service.matrixDeterminantOperation(matrixA);
+		System.out.println("Matrix A determinent value = " + detValue);
+		
+	}
+
+	public void performMatrixMultiplication(int rows, int cols) throws IOException {
 		int[][] matrixA = generateMatrix(rows, cols);
 		int[][] matrixB = generateMatrix(rows, cols);
-		MatrixFileOperationUtils.saveMatrixToFile(matrixA, "MatrixA");
-		MatrixFileOperationUtils.saveMatrixToFile(matrixB, "MatrixB");
+		Path pathA = MatrixFileOperationUtils.saveMatrixToFile(matrixA, "MatrixA");
+		System.out.println("\n\nMatrix A =\n" + MatrixFileOperationUtils.convertMatrixToString(matrixA));
+		System.out.println("Matrix A is saved in data folder as --> " + pathA.getFileName());
+		
+		Path pathB = MatrixFileOperationUtils.saveMatrixToFile(matrixB, "MatrixB");
+		System.out.println("\n\nMatrix B =\n" + MatrixFileOperationUtils.convertMatrixToString(matrixB) );
+		System.out.println("Matrix B is saved in data folder as --> " + pathB.getFileName());
 		
 		int[][] matrixC = service.matricesMultipleOperation(matrixA, matrixB);
-		MatrixFileOperationUtils.saveMatrixToFile(matrixC, "MatrixC");
-		
+		Path pathC = MatrixFileOperationUtils.saveMatrixToFile(matrixC, "MatrixC");
+		System.out.println("\n\nMatrix Multiplication Resultant C =\n" + MatrixFileOperationUtils.convertMatrixToString(matrixC) );
+		System.out.println("Matrix C is saved in data folder as --> " + pathC.getFileName());
+
 	}
 	
 	 // create and return a random M-by-N matrix 
@@ -53,5 +70,6 @@ public class MatrixIOModule {
 		Random r = new Random();
 		return r.ints(min, (max + 1)).limit(1).findFirst().getAsInt();
 	}
+	
 
 }
