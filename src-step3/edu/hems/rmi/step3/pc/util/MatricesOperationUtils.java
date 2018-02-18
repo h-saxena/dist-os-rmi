@@ -49,4 +49,10 @@ public class MatricesOperationUtils {
 		return (sum); 
 	}
 
+    public static int[][] append(int[][] a, int[][] b) {
+        int[][] result = new int[a.length + b.length][];
+        System.arraycopy(a, 0, result, 0, a.length);
+        System.arraycopy(b, 0, result, a.length, b.length);
+        return result;
+    }
 }

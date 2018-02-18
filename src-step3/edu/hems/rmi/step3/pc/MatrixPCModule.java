@@ -22,6 +22,7 @@ import edu.hems.rmi.step3.service.Worker2PC;
 
 public class MatrixPCModule implements PC2IO {
 
+	Registry registry = null;
 	
 	public MatrixPCModule() {
 	}
@@ -31,7 +32,7 @@ public class MatrixPCModule implements PC2IO {
         		setupRMISocketFactory(5000);
             String name = "matrixOperations";
             PC2IO stub =  (PC2IO) UnicastRemoteObject.exportObject(this, 0);
-            Registry registry = LocateRegistry.createRegistry(pcPort);
+            registry = LocateRegistry.createRegistry(pcPort);
             registry.rebind(name, stub);
             System.out.println("MatrixPCModule bound");
             
@@ -52,7 +53,12 @@ public class MatrixPCModule implements PC2IO {
 
 	@Override
 	public int[][] matricesMultipleOperation(int[][] a, int[][] b) {
-		return MatricesOperationUtils.multiply(a, b);
+		//return MatricesOperationUtils.multiply(a, b);
+		try {
+			return PCModuleDistributedOperationsHandler.matricesMultipleOperation(a, b, getWorkers(registry));
+		} catch (Exception e) {
+			throw new RuntimeException(e); 
+		}
 	}
 
 	@Override
@@ -61,7 +67,7 @@ public class MatrixPCModule implements PC2IO {
 	}
 
 	private List<Worker2PC> getWorkers(Registry registry) throws Exception  {
-		System.out.println("---------- Begin Test workers connection ----------- ");
+		//System.out.println("---------- Begin Test workers connection ----------- ");
 		List<Worker2PC> workers = new ArrayList<Worker2PC>();
 		String[] regNames = registry.list();
 		
@@ -78,7 +84,7 @@ public class MatrixPCModule implements PC2IO {
 					} catch (RemoteException e) {
 						registry.unbind(registryName);
 					}
-					System.out.println("Test connection done for: " + registryName );
+					//System.out.println("Test connection done for: " + registryName );
 					return worker;
 				});
 			}
@@ -96,7 +102,7 @@ public class MatrixPCModule implements PC2IO {
 //		    }) .forEach(System.out::println);
 			
 		}
-		System.out.println("---------- Done Tested all workers connection ----------- ");
+		//System.out.println("---------- Done Tested all workers connection ----------- ");
 		return workers;
 	}
 	

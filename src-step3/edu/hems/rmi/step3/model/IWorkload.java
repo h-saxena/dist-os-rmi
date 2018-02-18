@@ -1,5 +1,7 @@
 package edu.hems.rmi.step3.model;
 
-public interface IWorkload {
-	public void execute();
+import java.io.Serializable;
+
+public interface IWorkload extends Serializable {
+	public IWorkload execute();
 }

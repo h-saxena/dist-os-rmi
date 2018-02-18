@@ -34,14 +34,13 @@ public class MatrixWorkerModule implements Worker2PC {
 	}
 
 	@Override
-	public void execute(IWorkload workload) throws RemoteException {
-		// TODO Auto-generated method stub
+	public IWorkload execute(IWorkload workload) throws RemoteException {
+		return workload.execute();
 		
 	}
 
 	@Override
 	public void ping() throws RemoteException {
-		// TODO Auto-generated method stub
 		
 	}
 

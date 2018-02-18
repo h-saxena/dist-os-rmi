@@ -6,6 +6,6 @@ import java.rmi.RemoteException;
 import edu.hems.rmi.step3.model.IWorkload;
 
 public interface Worker2PC  extends Remote {
-	void execute(IWorkload workload) throws RemoteException;
+	IWorkload execute(IWorkload workload) throws RemoteException;
 	void ping() throws RemoteException;
 }
