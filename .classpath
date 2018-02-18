@@ -3,5 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" output="build-step2" path="src-step2"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" output="build-step3" path="src-step3"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
