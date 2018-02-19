@@ -21,7 +21,7 @@
 
 Resultant Multiplication of Matrices with be saved in ./data folder
 
---- If running modules on same host --------------------------
+--- If running modules on different hosts --------------------------
 
 - Run the PC Module, let say on PG-03 
 ...\dist-os-rmi>java -Djava.rmi.server.hostname=PG-03 -Dport=3000 -cp ./build-step2 edu.hems.rmi.step2.PCModuleBootup
