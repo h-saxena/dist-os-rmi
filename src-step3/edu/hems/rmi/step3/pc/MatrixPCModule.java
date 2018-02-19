@@ -16,13 +16,15 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import edu.hems.rmi.step3.pc.util.MatricesOperationUtils;
 import edu.hems.rmi.step3.service.PC2IO;
+import edu.hems.rmi.step3.service.PC2Worker;
 import edu.hems.rmi.step3.service.Worker2PC;
 
-public class MatrixPCModule implements PC2IO {
+public class MatrixPCModule implements PC2IO, PC2Worker {
 
-	Registry registry = null;
+	//Registry registry = null;
+	
+	List<Worker2PC> activeWorkers = new ArrayList<Worker2PC>();
 	
 	public MatrixPCModule() {
 	}
@@ -30,16 +32,20 @@ public class MatrixPCModule implements PC2IO {
 	public void init(int pcPort) {
         try {
         		setupRMISocketFactory(5000);
-            String name = "matrixOperations";
-            PC2IO stub =  (PC2IO) UnicastRemoteObject.exportObject(this, 0);
-            registry = LocateRegistry.createRegistry(pcPort);
-            registry.rebind(name, stub);
+            Registry registry = LocateRegistry.createRegistry(pcPort);
+            
+            //PC2IO stub =  (PC2IO) UnicastRemoteObject.exportObject(this, 0);
+            registry.rebind("MatrixPCModule", UnicastRemoteObject.exportObject(this, 0));
+            
+            //PC2Worker stub2 =  (PC2Worker) UnicastRemoteObject.exportObject(this, 0);
+            //registry.rebind("PC2Worker", stub2);
+            
             System.out.println("MatrixPCModule bound");
             
             boolean monitor = true;
             while(monitor) {
             		Thread.sleep(2000);
-            		System.out.printf("\r Workers Count: %d ", getWorkers(registry).size());
+            		System.out.printf("\r Workers Count: %d ", getWorkers().size());
             }
 
             System.out.println("MatrixPCModule out of monitor loop");
@@ -52,10 +58,17 @@ public class MatrixPCModule implements PC2IO {
 	}
 
 	@Override
+	public Boolean register(Worker2PC worker) throws RemoteException {
+		activeWorkers.add(worker);
+		return true;
+	}
+
+
+	@Override
 	public int[][] matricesMultipleOperation(int[][] a, int[][] b) {
 		//return MatricesOperationUtils.multiply(a, b);
 		try {
-			return PCModuleDistributedMultiplicationHandler.matricesMultipleOperation(a, b, getWorkers(registry));
+			return PCModuleDistributedMultiplicationHandler.matricesMultipleOperation(a, b, getWorkers());
 		} catch (Exception e) {
 			throw new RuntimeException(e); 
 		}
@@ -65,7 +78,7 @@ public class MatrixPCModule implements PC2IO {
 	public int matrixDeterminantOperation(int[][] a) {
 		//int v1 = MatricesOperationUtils.determinant(a);
 		try {
-			int v2 = PCModuleDistributedDeterminantCalcHandler.determinant(a, getWorkers(registry));
+			int v2 = PCModuleDistributedDeterminantCalcHandler.determinant(a, getWorkers());
 			//System.out.println("Determinant values ---------> " + v1 + " :: " + v2);
 			return v2;
 		} catch (Exception e) {
@@ -74,41 +87,31 @@ public class MatrixPCModule implements PC2IO {
 
 	}
 
-	private List<Worker2PC> getWorkers(Registry registry) throws Exception  {
+	private List<Worker2PC> getWorkers() throws Exception  {
 		//System.out.println("---------- Begin Test workers connection ----------- ");
 		List<Worker2PC> workers = new ArrayList<Worker2PC>();
-		String[] regNames = registry.list();
+		List<Worker2PC> workersRefToRemove = new ArrayList<Worker2PC>();
 		
 		List<Callable<Worker2PC>> callables = new ArrayList<Callable<Worker2PC>>();
-		for (int i = 0; i < regNames.length; i++) {
-			String registryName = regNames[i];
-			if(registryName.startsWith("worker-")) {
-				callables.add(() -> {
-					Worker2PC worker = null;
-					try {
-						worker = (Worker2PC)registry.lookup(registryName);
-						worker.ping();
-						workers.add(worker );
-					} catch (RemoteException e) {
-						registry.unbind(registryName);
-					}
-					//System.out.println("Test connection done for: " + registryName );
-					return worker;
-				});
-			}
+		for (int i = 0; i < activeWorkers.size(); i++) {
+			Worker2PC worker = activeWorkers.get(i);
+			callables.add(() -> {
+				try {
+					worker.ping();
+					workers.add(worker );
+				} catch (RemoteException e) {
+					workersRefToRemove.add(worker);
+				}
+				return worker;
+			});
 		}
 		if(!callables.isEmpty()) {
 			ExecutorService executor = Executors.newWorkStealingPool();
 			List<Future<Worker2PC>> fs = executor.invokeAll(callables);
-//			fs.stream().map(future -> {
-//		        try {
-//		            return future.get();
-//		        }
-//		        catch (Exception e) {
-//		            throw new IllegalStateException(e);
-//		        }
-//		    }) .forEach(System.out::println);
-			
+		}
+		
+		if(! workersRefToRemove.isEmpty()) {
+			activeWorkers.removeAll(workersRefToRemove);
 		}
 		//System.out.println("---------- Done Tested all workers connection ----------- ");
 		return workers;
@@ -137,5 +140,6 @@ public class MatrixPCModule implements PC2IO {
         return fac;
 		
 	}
+
 	
 }

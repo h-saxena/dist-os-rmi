@@ -7,6 +7,7 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import edu.hems.rmi.step3.model.IWorkload;
+import edu.hems.rmi.step3.service.PC2Worker;
 import edu.hems.rmi.step3.service.Worker2PC;
 
 public class MatrixWorkerModule implements Worker2PC {
@@ -19,10 +20,11 @@ public class MatrixWorkerModule implements Worker2PC {
         try {
         		String hostName = InetAddress.getLocalHost().getHostName();
             Registry registry = LocateRegistry.getRegistry(pcHost, pcPort);
+            PC2Worker service = (PC2Worker)registry.lookup("MatrixPCModule");
             
             for (int i = 0; i < workerCount; i++) {
             		String workerName = "worker-" + hostName + "-" + i;
-				registry.rebind(workerName, UnicastRemoteObject.exportObject(new MatrixWorkerModule(), 0));
+            		service.register((Worker2PC) UnicastRemoteObject.exportObject(new MatrixWorkerModule(), 0));
 				System.out.println("Worker initiated : " + workerName);
 			}
             

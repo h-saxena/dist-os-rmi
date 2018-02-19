@@ -18,9 +18,8 @@ public class MatrixIOModule {
 	
 	public void init(String pcHost, int pcPort) {
         try {
-            String name = "matrixOperations";
             Registry registry = LocateRegistry.getRegistry(pcHost, pcPort);
-            service = (PC2IO) registry.lookup(name);
+            service = (PC2IO) registry.lookup("MatrixPCModule");
         } catch (Exception e) {
             System.err.println("MatrixIOModule exception:");
             e.printStackTrace();

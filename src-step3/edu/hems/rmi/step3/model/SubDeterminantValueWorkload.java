@@ -1,6 +1,6 @@
 package edu.hems.rmi.step3.model;
 
-import edu.hems.rmi.step2.pc.util.MatricesOperationUtils;
+import edu.hems.rmi.step3.pc.util.MatricesOperationUtils;
 import edu.hems.rmi.step3.io.utils.MatrixFileOperationUtils;
 
 public class SubDeterminantValueWorkload implements IWorkload {
