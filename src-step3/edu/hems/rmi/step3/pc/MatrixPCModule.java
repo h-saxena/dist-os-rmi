@@ -63,7 +63,13 @@ public class MatrixPCModule implements PC2IO {
 
 	@Override
 	public int matrixDeterminantOperation(int[][] a) {
-		return MatricesOperationUtils.determinant(a);
+		//return MatricesOperationUtils.determinant(a);
+		try {
+			return PCModuleDistributedDeterminantCalcHandler.determinant(a, getWorkers(registry));
+		} catch (Exception e) {
+			throw new RuntimeException(e); 
+		}
+
 	}
 
 	private List<Worker2PC> getWorkers(Registry registry) throws Exception  {

@@ -44,7 +44,7 @@ public class PCModuleDistributedMultiplicationHandler {
 	        Worker2PC wk = workers.get(grpCtr - 1);	        
 	        final int threadNum = grpCtr;
 			callables.add(() -> {
-				String threadName = "Thread-PCModule-" + threadNum;
+				String threadName = "Thread-dist-Multiplication-" + threadNum;
 				Thread.currentThread().setName(threadName);
 		        MultiplicationWorkload wl = new MultiplicationWorkload(subMatrixA, b, threadName);
 		        multiplicationWLs.add(wl);
