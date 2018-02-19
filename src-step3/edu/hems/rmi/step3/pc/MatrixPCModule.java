@@ -55,7 +55,7 @@ public class MatrixPCModule implements PC2IO {
 	public int[][] matricesMultipleOperation(int[][] a, int[][] b) {
 		//return MatricesOperationUtils.multiply(a, b);
 		try {
-			return PCModuleDistributedOperationsHandler.matricesMultipleOperation(a, b, getWorkers(registry));
+			return PCModuleDistributedMultiplicationHandler.matricesMultipleOperation(a, b, getWorkers(registry));
 		} catch (Exception e) {
 			throw new RuntimeException(e); 
 		}

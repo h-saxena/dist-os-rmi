@@ -14,7 +14,7 @@ import edu.hems.rmi.step3.model.MultiplicationWorkload;
 import edu.hems.rmi.step3.pc.util.MatricesOperationUtils;
 import edu.hems.rmi.step3.service.Worker2PC;
 
-public class PCModuleDistributedOperationsHandler {
+public class PCModuleDistributedMultiplicationHandler {
 
 	public static int[][] matricesMultipleOperation(int[][] a, int[][] b, List<Worker2PC> workers) throws RemoteException, InterruptedException, ExecutionException {
 		if(workers == null || workers.isEmpty())
