@@ -63,9 +63,11 @@ public class MatrixPCModule implements PC2IO {
 
 	@Override
 	public int matrixDeterminantOperation(int[][] a) {
-		//return MatricesOperationUtils.determinant(a);
+		//int v1 = MatricesOperationUtils.determinant(a);
 		try {
-			return PCModuleDistributedDeterminantCalcHandler.determinant(a, getWorkers(registry));
+			int v2 = PCModuleDistributedDeterminantCalcHandler.determinant(a, getWorkers(registry));
+			//System.out.println("Determinant values ---------> " + v1 + " :: " + v2);
+			return v2;
 		} catch (Exception e) {
 			throw new RuntimeException(e); 
 		}
