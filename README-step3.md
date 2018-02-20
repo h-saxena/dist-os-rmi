@@ -29,7 +29,7 @@ Resultant Multiplication of Matrices with be saved in ./data folder
 --- If running modules on different hosts --------------------------
 
 - Run the PC Module, let say on PG-03 
-...\dist-os-rmi>java -Djava.rmi.server.hostname=PG-03 -Dport=3000 -cp ./build-step3 edu.hems.rmi.step3.PCModuleBootup
+...\dist-os-rmi>java -Dport=3000 -cp ./build-step3 edu.hems.rmi.step3.PCModuleBootup
 
 - Then run the Worker Module and follow the prompt to setup number of workers on a given host
 - Important to note that all the worker remote objects bind to Registry created in PC Module

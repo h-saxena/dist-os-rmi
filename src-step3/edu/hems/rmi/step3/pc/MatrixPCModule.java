@@ -1,6 +1,7 @@
 package edu.hems.rmi.step3.pc;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -31,7 +32,10 @@ public class MatrixPCModule implements PC2IO, PC2Worker {
 
 	public void init(int pcPort) {
         try {
-        		setupRMISocketFactory(5000);
+        	String hostName = InetAddress.getLocalHost().getHostName();
+        	System.setProperty("java.rmi.server.hostname",hostName);
+        	
+        	setupRMISocketFactory(10000);
             Registry registry = LocateRegistry.createRegistry(pcPort);
             
             //PC2IO stub =  (PC2IO) UnicastRemoteObject.exportObject(this, 0);

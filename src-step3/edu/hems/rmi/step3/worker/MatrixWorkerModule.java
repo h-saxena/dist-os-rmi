@@ -18,7 +18,9 @@ public class MatrixWorkerModule implements Worker2PC {
 	
 	public static void init(String pcHost, int pcPort, int workerCount) {
         try {
-        		String hostName = InetAddress.getLocalHost().getHostName();
+        	String hostName = InetAddress.getLocalHost().getHostName();
+        	System.setProperty("java.rmi.server.hostname",hostName);
+        	
             Registry registry = LocateRegistry.getRegistry(pcHost, pcPort);
             PC2Worker service = (PC2Worker)registry.lookup("MatrixPCModule");
             
