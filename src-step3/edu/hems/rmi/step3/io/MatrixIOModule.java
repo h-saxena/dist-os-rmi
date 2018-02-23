@@ -9,6 +9,12 @@ import java.util.Random;
 import edu.hems.rmi.step3.io.utils.MatrixFileOperationUtils;
 import edu.hems.rmi.step3.service.PC2IO;
 
+/*
+ * Class responsible for : 
+ * 1) Create random matrix based on number of rows and columns.
+ * 2) to locate remote PC2IO service and call the 
+ * service methods to operations of Matrices.
+ */
 public class MatrixIOModule {
 	
 	PC2IO service = null;

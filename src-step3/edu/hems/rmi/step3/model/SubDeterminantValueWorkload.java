@@ -3,6 +3,9 @@ package edu.hems.rmi.step3.model;
 import edu.hems.rmi.step3.pc.util.MatricesOperationUtils;
 import edu.hems.rmi.step3.io.utils.MatrixFileOperationUtils;
 
+/*
+ * represent a unit of workload to calculate determinant of sub matrix.
+ */
 public class SubDeterminantValueWorkload implements IWorkload {
 	int[][] subMatrix;
 	int signValue;

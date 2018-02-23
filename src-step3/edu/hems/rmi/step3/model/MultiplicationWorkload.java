@@ -3,6 +3,9 @@ package edu.hems.rmi.step3.model;
 import edu.hems.rmi.step3.io.utils.MatrixFileOperationUtils;
 import edu.hems.rmi.step3.pc.util.MatricesOperationUtils;
 
+/*
+ * represent a unit of workload to do multiplication on subset of a matrix.
+ */
 public class MultiplicationWorkload implements IWorkload {
 	int[][] a,  b, c;
 	String threadName;

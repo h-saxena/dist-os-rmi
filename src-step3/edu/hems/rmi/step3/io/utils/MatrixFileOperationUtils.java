@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
+/*
+ * Class to provide utility methods to do read or write matrix in a file.
+ */
 public class MatrixFileOperationUtils {
 
 	public static StringBuilder convertMatrixToString(int[][] matrix) {
@@ -34,7 +36,7 @@ public class MatrixFileOperationUtils {
 		Files.deleteIfExists(newFilePath);
 		Files.createFile(newFilePath);
 		BufferedWriter writer = new BufferedWriter(new FileWriter(fName));
-		writer.write(builder.toString());//save the string representation of the board
+		writer.write(builder.toString());
 		writer.close();
 		return newFilePath;
 		
